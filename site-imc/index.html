@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora de IMC - Nutrimente</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
+      padding: 30px;
+      margin: 0;
+    }
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 80px;
+    }
+    .container {
+      max-width: 420px;
+      margin: 100px auto 0 auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      position: relative;
+    }
+    h2 {
+      text-align: center;
+      color: #00796b;
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #444;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      background-color: #00796b;
+      color: white;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #004d40;
+    }
+    #resultado {
+      margin-top: 25px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      color: #333;
+    }
+    #receita {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #f1f8e9;
+      border-left: 6px solid #689f38;
+      border-radius: 10px;
+      color: #33691e;
+    }
+    .subtitulo {
+      font-weight: bold;
+      font-size: 17px;
+      color: #33691e;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+    .dica {
+      background-color: #e8f5e9;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="unnamed.png" alt="Logo Nutrimente" class="logo">
+
+  <div class="container">
+    <h2>Calculadora de IMC</h2>
+    <form id="form">
+      <label for="idade">Idade:</label>
+      <input type="number" id="idade" required />
+
+      <label for="peso">Peso (kg):</label>
+      <input type="number" id="peso" required step="0.1" />
+
+      <label for="altura">Altura (m):</label>
+      <input type="number" id="altura" required step="0.01" />
+
+      <label for="genero">Gênero:</label>
+      <select id="genero" required>
+        <option value="">Selecione</option>
+        <option value="masculino">Masculino</option>
+        <option value="feminino">Feminino</option>
+        <option value="outro">Outro</option>
+      </select>
+
+      <button type="submit">Calcular IMC</button>
+    </form>
+
+    <div id="resultado"></div>
+    <div id="receita"></div>
+  </div>
+
+  <script>
+    document.getElementById('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const peso = parseFloat(document.getElementById('peso').value);
+      const altura = parseFloat(document.getElementById('altura').value);
+
+      const imc = peso / (altura * altura);
+      let classificacao = "";
+      let receita = "";
+
+      if (imc < 18.5) {
+        classificacao = "Abaixo do peso";
+        receita = `
+          <div class="subtitulo">Receita para Ganhar Massa Saudável:</div>
+          Smoothie de Banana e Pasta de Amendoim:<br>
+          - 1 banana<br>
+          - 2 colheres de sopa de pasta de amendoim<br>
+          - 200ml de leite integral<br>
+          - 1 colher de mel<br>
+          Bata tudo no liquidificador e consuma entre refeições.
+          <div class="subtitulo">Dicas:</div>
+          <div class="dica">
+            • Consuma mais proteínas e bons carboidratos.<br>
+            • Exercite-se com foco em musculação.<br>
+            • Durma bem e evite pular refeições.
+          </div>
+        `;
+      } else if (imc < 24.9) {
+        classificacao = "Peso normal";
+      } else if (imc < 29.9) {
+        classificacao = "Sobrepeso";
+      } else if (imc < 34.9) {
+        classificacao = "Obesidade Grau I";
+      } else if (imc < 39.9) {
+        classificacao = "Obesidade Grau II";
+      } else {
+        classificacao = "Obesidade Grau III";
+      }
+
+      document.getElementById('resultado').innerText = 
+        `IMC: ${imc.toFixed(2)} (${classificacao})`;
+
+      if (imc >= 25) {
+        receita = `
+          <div class="subtitulo">Receita para Emagrecer com Saúde:</div>
+          Salada Detox com Grãos:<br>
+          - Mix de folhas verdes<br>
+          - Tomate-cereja<br>
+          - Quinoa cozida<br>
+          - Pepino e cenoura ralados<br>
+          - Molho de limão com azeite extra virgem<br><br>
+          <div class="subtitulo">Dicas:</div>
+          <div class="dica">
+            • Beba água regularmente.<br>
+            • Reduza frituras e açúcar.<br>
+            • Caminhe diariamente por pelo menos 30 minutos.<br>
+            • Planeje suas refeições com antecedência.
+          </div>
+        `;
+      }
+
+      document.getElementById('receita').innerHTML = receita;
+    });
+  </script>
+
+</body>
+</html>
